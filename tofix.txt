@@ -1,0 +1,9 @@
+TO FIX:
+
+*automatically set this
+IF status = 'pending' and CURRENT_DATE() > date_of_appointment THEN set status to 'rejected'
+IF status = 'approved' and CURRENT_DATE() > date_of_appointment THEN set status to 'done'
+
+*gray-container is not expanding, rows is extending outside the div
+
+*text appearing in the navbar 'None' depending on the number of unread notification

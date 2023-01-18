@@ -1,0 +1,201 @@
+{% extends "_inner_layout.html" %} {% block title %}My Appointments{% endblock
+%} 
+{% block section %}
+<h1 style="color: #213aac">My Appointments</h1>
+{% endblock %} {% block article %}
+{% from "includes/_formhelpers.html" import
+render_field %}
+<div class="container">
+  <div class="row" style="height: 70vh">
+    <div class="col gray-container">
+      <div style="border-bottom: solid 1px #c9c6c6">
+        <span class="small-label">Full Name</span>
+        <p class="info-label">{{ session["full_name"] }}</p>
+      </div>
+      <div style="border-bottom: solid 1px #c9c6c6">
+        <span class="small-label">Role</span>
+        <!-- <p>{{session["full_name"]}}</p> -->
+        <p class="info-label">ADMIN</p>
+      </div>
+    </div>
+    <div class="col-10">
+      <div class="row gray-container p-2" style="height: 48.95%">
+        <div class="col">
+          <div class="row"><h5>Upcoming Appointments:</h5></div>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Office</th>
+                    <th scope="col">Field of Work</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if upcoming_appointments %} {% for appointment in
+                  upcoming_appointments %}
+                  <tr>
+                    <td scope="row">{{ appointment.id }}</td>
+                    <td scope="row">{{ appointment.user_fullname }}</td>
+                    <td scope="row">{{ appointment.client_office }}</td>
+                    <td scope="row" id='{{ appointment.field_of_work_id }}'>{{ appointment.field_of_work_name }}</td>
+                    <td scope="row">{{ appointment.date }}</td>
+                    <td scope="row">{{ appointment.status }}</td>
+                    <td scoper="row">
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#admin-appointment-modal"
+                        data-appointment='
+                        {{ appointment | tojson | replace("&#39;", '&quot;')}}'
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                  {% endfor %} {% else %}
+                  <tr>
+                    <td colspan="3">You don't have an appointment yet.</td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row gray-container p-2" style="height: 48.95%">
+        <div class="col">
+          <div class="row"><h5>Past Appointments:</h5></div>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Office</th>
+                    <th scope="col">Field of Work</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Worker</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if past_appointments %} {% for appointment in
+                  past_appointments %}
+                  <tr>
+                    <td scope="row">{{ appointment.id }}</td>
+                    <td scope="row">{{ appointment.user_fullname }}</td>
+                    <td scope="row">{{ appointment.client_office }}</td>
+                    <td scope="row">{{ appointment.field_of_work_name }}</td>
+                    <td scope="row">{{ appointment.date }}</td>
+                    <td scope="row">{{ appointment.worker_fullname }}</td>
+                    <td scope="row">{{ appointment.status }}</td>
+                    <td scoper="row">
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#admin-appointment-modal"
+                        data-appointment='
+                        {{ appointment | tojson | replace("&#39;", '&quot;')}}'
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                  {% endfor %} {% else %}
+                  <tr>
+                    <td colspan="3">You don't have an appointment yet.</td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+<div
+  class="modal fade"
+  id="admin-appointment-modal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" style="color:#213aac">Appointment</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <p class="mb-0">Field of Work</p>
+           <h3 class="fs-5" id="field-of-work" style="color:#5075c5"></h3>
+          </div>
+          <div class="col">
+            <div id="past-appointment-worker">
+              <p class="mb-0">Worker</p>
+              <h3 class="fs-5" id="workerr" style="color:#5075c5"></h3>
+            </div>
+            <div id="upcoming-appointment-worker">
+              {{ render_field(form.worker, class="form-control mb-3 w-100",
+              type="date", value="2009-11-1") }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p class="mb-0">Date</p>
+            <h3 class="fs-5" id="date" style="color:#5075c5"></h3>
+          </div>
+          <div class="col">
+            <p class="mb-0">Time</p>
+           <h3 class="fs-5" id="time" style="color:#5075c5"></h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p class="mb-0">Status of Materials</p>
+            <h3 class="fs-5" id="materials_status" style="color:#5075c5"></h3>
+          </div>
+          <div class="col">
+            <p class="mb-0">Estimated Time</p>
+           <h3 class="fs-5" id="estimated_time" style="color:#5075c5"></h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p class="mb-0" >Specific Work to be Done</p>
+            <p id="description" style="color:#5075c5"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" id="reject-button" type="button" class="btn btn-danger">
+          Reject
+        </a>
+        <a href="#" id="approve-button" type="button" class="btn btn-success" onclick="modifyApproveButtonHref(event); return true;" >Approve</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

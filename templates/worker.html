@@ -1,0 +1,23 @@
+{% extends "_outer_layout.html" %} {% block title %}Worker{% endblock %} {%
+block section %}
+<div style="text-align: center">
+  <img
+    src="{{ url_for('static', filename='img/logo.png') }}"
+    width="75px"
+    height="75px"
+  />
+  <h1 style="color: #3148ca">UEP-GSU JOB REQUEST</h1>
+  <h4>Please fullfil the necessary information to register.</h4>
+</div>
+{% endblock %} {% block article %} {% from "includes/_formhelpers.html" import
+render_field %}
+<form method="post" class="mb-5">
+  <dl>
+    {{ render_field(form.first_name, class="form-control mb-3 w-100") }} {{
+    render_field(form.last_name, class="form-control mb-3 w-100") }} {{
+    render_field(form.field_of_work, class="form-control mb-3 w-100") }}
+  </dl>
+  <input type="submit" value="Submit" class="btn btn-primary w-100 mb-2" />
+  <a href="/workers" class="btn btn-outline-danger w-100">Cancel</a>
+</form>
+{% endblock %}

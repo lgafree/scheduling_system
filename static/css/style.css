@@ -1,0 +1,57 @@
+/* Main */
+.main-background {
+  position: relative;
+  background: linear-gradient(185deg, #00b9a4 0%, #0e1f3b 100%);
+  min-height: 100vh;
+  opacity: 1;
+  z-index: 1;
+}
+
+.gray-container {
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-bottom: solid 3px #e2e2e2;
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.badge {
+  position: absolute;
+  top: 0px;
+  right: -10px;
+  border-radius: 25px;
+}
+
+/* NavBar */
+.navbar a {
+  color: white;
+}
+
+.white-box {
+  margin-top: 2rem;
+  background-color: #ffffff;
+  height: auto;
+  width: auto;
+  border-radius: 4px;
+}
+
+/* Utils */
+.small-label {
+  font-size: 12px;
+  color: #918d8d;
+  font-weight: 200;
+}
+
+.info-label {
+  font-family: "Poppins", "Century Gothic";
+  width: 100%;
+  font-size: 14px;
+  color: #5075c5;
+  font-weight: bold;
+  margin: 2px 0px;
+}

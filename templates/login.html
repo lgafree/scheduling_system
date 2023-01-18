@@ -1,0 +1,24 @@
+{% extends "_outer_layout.html" %} {% block title %}Login{% endblock %} {% block
+section %}
+<div style="text-align: center">
+  <img
+    src="{{ url_for('static', filename='img/logo.png') }}"
+    width="75px"
+    height="75px"
+  />
+  <h2 style="color: #3148ca">UEP-GSU JOB REQUEST</h2>
+  <h5>Request your appointment online!</h5>
+</div>
+{% endblock %} {% block article %} {% from "includes/_formhelpers.html" import
+render_field %}
+<form method="post">
+  <dl>
+    {{ render_field(form.email, class="form-control mb-3 w-100") }} {{
+    render_field(form.password, class="form-control mb-3 w-100") }}
+  </dl>
+  <input type="submit" value="Login" class="btn btn-success w-100 mb-3" />
+</form>
+<div style="text-align: center">
+  <p style="color: #7d7b7b">© UEP BSIT - 2022</p>
+</div>
+{% endblock %}

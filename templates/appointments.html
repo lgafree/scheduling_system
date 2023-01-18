@@ -1,0 +1,122 @@
+{% extends "_inner_layout.html" %} {% block title %}My Appointments{% endblock
+%} {% block section %}
+<h1 style="color: #213aac">My Appointments</h1>
+{% endblock %} {% set notification = notifications %} {% block notification %}{%
+endblock %} {% block article %}
+<div class="container">
+  <div class="row" style="height: 70vh">
+    <div class="col gray-container">
+      <div style="border-bottom: solid 1px #c9c6c6">
+        <span class="small-label">Full Name</span>
+        <p class="info-label">{{ session["full_name"] }}</p>
+      </div>
+      <div style="border-bottom: solid 1px #c9c6c6">
+        <span class="small-label">Office</span>
+        <!-- <p>{{session["full_name"]}}</p> -->
+        <p class="info-label">{{ session["office"] }}</p>
+      </div>
+    </div>
+    <div class="col-10">
+      <div class="row gray-container p-2" style="height: 48.95%">
+        <div class="col">
+          <div class="row"><h5>Upcoming Appointments:</h5></div>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Field of Work</th>
+                    <th scope="col">Assigned Person</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time of Day</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if upcoming_appointments %} {% for appointment in
+                  upcoming_appointments %}
+                  <tr>
+                    <td scope="row">{{ appointment.id }}</td>
+                    <td scope="row">{{ appointment.field_of_work_name }}</td>
+                    <td scope="row">{{ appointment.worker_fullname }}</td>
+                    <td scope="row">{{ appointment.date }}</td>
+                    <td scope="row">{{ appointment.time }}</td>
+                    <td scope="row">{{ appointment.status }}</td>
+                    <td scope="row" class="px-0">
+                      <a
+                        href="{{ url_for('cancel_appointment', param=appointment.id) }}"
+                        class="btn-danger btn-sm"
+                        style="text-decoration: none; text-align: center"
+                        onclick="return confirm('Are you sure you want to cancel the appointment?');"
+                      >
+                        <b>Cancel</b>
+                      </a>
+                    </td>
+                    <td scope="row" class="px-0">
+                      <a
+                        href="{{ url_for('done_appointment', param=appointment.id) }}"
+                        class="btn-success btn-sm"
+                        style="text-decoration: none; text-align: center"
+                      >
+                        <b>Done</b>
+                      </a>
+                    </td>
+                  </tr>
+
+                  {% endfor %} {% else %}
+                  <tr>
+                    <td colspan="3">You don't have an appointment yet.</td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row gray-container p-2" style="height: 48.95%">
+        <div class="col">
+          <div class="row"><h5>Past Appointments:</h5></div>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Field of Work</th>
+                    <th scope="col">Assigned Person</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time of Day</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if past_appointments %} {% for appointment in
+                  past_appointments %}
+                  <tr>
+                    <td scope="row">{{ appointment.id }}</td>
+                    <td scope="row">{{ appointment.field_of_work_name }}</td>
+                    <td scope="row">{{ appointment.worker_fullname }}</td>
+
+                    <td scope="row">{{ appointment.date }}</td>
+                    <td scope="row">{{ appointment.time }}</td>
+                    <td scope="row">{{ appointment.status }}</td>
+                  </tr>
+                  {% endfor %} {% else %}
+                  <tr>
+                    <td colspan="3">You don't have an appointment yet.</td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

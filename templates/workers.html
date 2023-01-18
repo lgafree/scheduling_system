@@ -1,0 +1,38 @@
+{% extends "_inner_layout.html" %} {% block title %}My Appointments{% endblock
+%} {% block section %}
+<h1 style="color: #213aac">Workers</h1>
+{% endblock %} {% block article %}
+<div class="container">
+  <div class="row" style="height: 70vh">
+    <div class="col gray-container p-2">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Field of Work</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if workers %} {% for worker in workers %}
+              <tr>
+                <td scope="row">
+                  {{ worker.last_name.title() }}, {{ worker.first_name.title()
+                  }}
+                </td>
+                <td scope="row">{{ worker.field_of_work_name }}</td>
+              </tr>
+              {% endfor %} {% else %}
+              <tr>
+                <td colspan="3">You don't have any workers yet.</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

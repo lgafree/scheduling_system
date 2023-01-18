@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="language" content="en" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="index" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/logo.png') }}"
+      type="image/x-icon"
+    />
+    <title>UEP-GSU | {% block title %}{% endblock %}</title>
+  </head>
+
+  <body class="bg-black">
+    <main class="main-background pt-5 pb-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-sm-12 col-md-9 col-xl-6">
+            <div class="white-box px-5 pt-5 pb-1">
+              <section>
+                {% include "./includes/_messages.html" %} {% block section %} {%
+                endblock %}
+              </section>
+              <article>{% block article %} {% endblock %}</article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script
+      src="https://kit.fontawesome.com/83fdf682f5.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+      window.onload = roleSelected();
+
+      function roleSelected() {
+        "use strict";
+
+        const page = document.URL.replace("http://127.0.0.1:5000/");
+
+        if (page == "register") {
+          var role = document.getElementById("role").selectedOptions[0].value;
+          if (role == "client") {
+            document.getElementById("office").style.display = "block";
+          } else {
+            document.getElementById("office").style.display = "none";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

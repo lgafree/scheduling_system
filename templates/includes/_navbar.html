@@ -1,0 +1,155 @@
+<nav
+  class="navbar navbar-expand-lg p-2"
+  style="background-color: #123569; border-bottom: solid 5px #ffa807"
+>
+  <a class="navbar-brand" href="#">
+    <img
+      src="{{ url_for('static', filename='img/uep_logo.png') }}"
+      style="width: auto; height: auto; max-width: 60px; max-height: 60px"
+    />
+  </a>
+  <div style="color: white; text-align: center">
+    <strong style="font-size: 1.25rem; font-weight: bolder"
+      >University of Eastern Philippines</strong
+    >
+    <br />
+    <span>GSU Job Request</span>
+  </div>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div
+    class="collapse navbar-collapse justify-content-end"
+    id="navbarNavDropdown"
+  >
+    <ul class="navbar-nav">
+      {% if session["is_client"] %} {% set unread_count=[] %} {% if notification
+      %} {% for notif in notification %} {% if notif.status == 'unread' %} {{-
+      unread_count.append(notif)}} {% endif %} {% endfor %} {% endif %}
+      <li class="nav-item dropdown me-2">
+        <!-- create a dropdown-toggle nav-link with bell icon -->
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdownMenuLink"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bell"></i>
+          <span class="badge bg-danger">{{unread_count|length}}</span>
+        </a>
+        <ul
+          class="dropdown-menu dropdown-menu-dark"
+          aria-labelledby="navbarDropdownMenuLink"
+          style="width: 300px"
+        >
+          {% if notification %} {% for notif in notification %}
+          <li>
+            <div class="container">
+              <div class="row border-bottom">
+                <div class="col-11">
+                  <a
+                    class="col-11 dropdown-item"
+                    style="white-space: normal"
+                    href="{{ url_for('read_notification', param=notif.id) }}"
+                  >
+                    You're appointment with ID
+                    <b>{{ notif.appointment_id }}</b> was marked as
+                    <b>{{ notif.appointment_status }}</b>
+                  </a>
+                </div>
+                <div
+                  class="col-1 text-center p-0 m-auto"
+                  style="color: #43a3e899"
+                >
+                  {% if notif.status == 'unread' %} ● {% endif %}
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %} {% else %}
+          <li>
+            <p class="px-5">No notifications</p>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdownMenuLink"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Appointments
+        </a>
+        <ul
+          class="dropdown-menu dropdown-menu-dark"
+          aria-labelledby="navbarDropdownMenuLink"
+        >
+          <li>
+            <a class="dropdown-item" href="./book-an-appointment"
+              >Book an appointment</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="./appointments">My Appointments</a>
+          </li>
+        </ul>
+      </li>
+      {% endif %} {% if session["is_admin"] %}
+      <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="./admin-appointments"
+          >Appointments</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="./register">Register</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdownMenuLink"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Worker
+        </a>
+        <ul
+          class="dropdown-menu dropdown-menu-dark"
+          aria-labelledby="navbarDropdownMenuLink"
+        >
+          <li>
+            <a class="nav-link" aria-current="page" href="./workers">Workers</a>
+          </li>
+          <li>
+            <a class="nav-link" aria-current="page" href="./worker"
+              >Add Worker</a
+            >
+          </li>
+        </ul>
+      </li>
+      {% endif %}
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="./profile">My profile</a>
+      </li> -->
+
+      <li class="nav-item">
+        <a class="nav-link" href="./logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>

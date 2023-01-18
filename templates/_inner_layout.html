@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="language" content="en" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="index" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/logo.png') }}"
+      type="image/x-icon"
+    />
+    <title>UEP-GSU | {% block title %}{% endblock %}</title>
+  </head>
+
+  <body class="bg-black">
+    {% include "./includes/_navbar.html" %} {% block notifications %}{% endblock
+    %}
+    <main class="px-5 py-3">
+      <div class="container">
+        <section class="mb-4">
+          {% include "./includes/_messages.html" %} {% block section %} {%
+          endblock %}
+        </section>
+        <article>{% block article %} {% endblock %}</article>
+      </div>
+    </main>
+
+    <script
+      src="https://kit.fontawesome.com/83fdf682f5.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
+    {% block scripts %} {% if include_script %}
+    <!-- SCRIPT FOR ADMIN -->
+    <script>
+      "use strict";
+      $("#admin-appointment-modal").on("show.bs.modal", function (event) {
+        var button = $(event.relatedTarget);
+        var recipient = JSON.parse(button.data("appointment"));
+        var modal = $(this);
+        var workers = {{workers|tojson}}
+        var appointment_date = new Date(recipient.date);
+        var appointment_date_formatted =
+        appointment_date.getMonth() +
+        1 +
+        "/" +
+        appointment_date.getDate() +
+        "/" +
+        appointment_date.getFullYear().toString().slice(-2);
+
+        modal.find(".modal-title").text(recipient.user_fullname);
+        modal
+        .find(".modal-body #field-of-work")
+        .text(recipient.field_of_work_name);
+        modal.find(".modal-body #workerr").text(recipient.worker_fullname);
+        modal.find(".modal-body #date").text(appointment_date_formatted);
+        modal.find(".modal-body #time").text(recipient.time);
+        modal
+        .find(".modal-body #materials_status")
+        .text(recipient.materials_status);
+        modal
+        .find(".modal-body #estimated_time")
+        .text(
+          recipient.estimated_time ? recipient.estimated_time + "hrs" : "N/A"
+          );
+          modal.find(".modal-body #description").text(recipient.description);
+
+          // if past appointment
+          if (
+            recipient.status == "rejected" ||
+            recipient.status == "done" ||
+            recipient.status == "cancelled"
+            ) {
+              //hide buttons
+              modal.find(".modal-footer")[0].style.display = "none";
+              //hide worker select
+              modal.find("#upcoming-appointment-worker")[0].style.display="none"
+              //show worker label
+              modal.find("#past-appointment-worker")[0].style.display="block"
+            }
+            // if upcoming appointment
+            else {
+              //display buttons
+              modal.find(".modal-footer")[0].style.display = "block";
+              //hide worker label
+              modal.find("#past-appointment-worker")[0].style.display="none"
+              //show worker select
+              modal.find("#upcoming-appointment-worker")[0].style.display="block"
+
+              //set buttons link reference
+              $("#approve-button").attr(
+                "href",
+                "/approve-appointment?param1=" + recipient.id
+                );
+
+                $("#reject-button").attr(
+                  "href",
+                  "/reject-appointment?param1=" + recipient.id
+                  );
+                }
+
+                var worker_select = modal.find("#worker")[0]
+                //add choices to worker select and prevent duplicate
+                for(let worker of workers){
+                  if(worker.field_of_work == recipient.field_of_work && modal.find(`#worker option[value="${worker.id}"]`).length == 0){
+                      worker_select.append(new Option(`${worker.last_name}, ${worker.first_name}`, worker.id));
+                  }
+                }
+              });
+
+              function modifyApproveButtonHref(){
+                event.preventDefault()
+                var link = $("#approve-button").attr("href");
+                link = `${link}&param2=${$("#worker").val()}`
+                window.location.href = link;
+              }
+    </script>
+    {%endif%} {% endblock %}
+  </body>
+</html>
